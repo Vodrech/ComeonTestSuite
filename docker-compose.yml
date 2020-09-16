@@ -1,0 +1,11 @@
+seleniumhub:
+  image: selenium/hub
+  ports:
+    - 4444:4444
+
+chromenode:
+  image: selenium/node-chrome
+  ports:
+    - 4578
+  links:
+    - seleniumhub:hub
