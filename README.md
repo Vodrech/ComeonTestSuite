@@ -5,7 +5,7 @@
 [![NPM Version][npm-image]][npm-url]
 
 ###Workflow Image:
-![Project_Summary_Logo](https://github.com/Vodrech/ComeonWebTesting/blob/master/MindMap.png?raw=true)
+![MindMap](https://github.com/Vodrech/ComeonWebTesting/blob/master/MindMap.png?raw=true)
 
 
 <!-- Markdown link & img dfn's -->
