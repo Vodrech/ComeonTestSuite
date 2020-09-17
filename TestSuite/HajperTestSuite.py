@@ -9,15 +9,10 @@ from TestSuite.AbstractTestMethods import AbstractTestMethods
 from config import Environment
 import time
 
-"""
-
-    - HAJPER -- 
-
-"""
 
 # Class Setup
 abstract = AbstractTestMethods()
-environment = Environment('hajper', 'https://www.hajper.com/sv/', '', True)
+environment = Environment('hajper', 'https://www.hajper.com/sv/', '', False)
 
 
 class HajperTestSuite(unittest.TestCase):
@@ -56,7 +51,7 @@ class HajperTestSuite(unittest.TestCase):
         # Execution
         try:
 
-            AbstractTestMethods.spel_inspektionen_logo_abstract(abstract, active_session)
+            AbstractTestMethods.spel_inspektionen_logo_abstract(abstract, active_session, environment)
 
         except Exception:
             raise Exception('Execution of ' + self._testMethodName + ' failed, please check error log')
@@ -68,7 +63,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page(environment.mobileMode)
+        active_session = selenium_session.load_page2(environment.mobileMode)
 
         # Execution
         try:
@@ -134,7 +129,29 @@ class HajperTestSuite(unittest.TestCase):
             # Execution
             print('EXE: Navigation to the game the respinners')
             time.sleep(5)
-            active_session.execute_script("return document.getElementsByTagName('figure')[8].getElementsByClassName('dots-container u-absolute u-pos-tr0 u-cursor-hand')[0]").click()
+            listOfItems = active_session.execute_script("return document.getElementsByTagName('figure')")
+            counter = 0
+            for x in listOfItems:
+                checkingName = x.text
+
+                if str(checkingName).__contains__('The Respinners'):
+                    # Scrolling to the object
+                    if environment.mobileMode:
+                        active_session.execute_script("return document.getElementsByTagName('figure')[arguments[0]].scrollIntoView()", counter)
+                    else:
+                        active_session.execute_script("return document.getElementsByTagName('figure')[arguments[0]].scrollIntoView(alignToTop=false)",counter)
+
+                    # Clicks on the button
+                    element = active_session.execute_script("return document.getElementsByTagName('figure')[arguments[0]].getElementsByClassName('dots-container u-absolute u-pos-tr0 u-cursor-hand')[0]", counter)
+                    element.click()
+                    boolVal = True
+                else:
+                    counter+=1
+                    continue
+
+            if boolVal != True:
+                raise Exception('The Respinners could not be found!')
+
             active_session.find_element_by_xpath('//*[@id="main-layout"]/nav/div/button[3]').click()
             time.sleep(2)
             # Switching to the iframe to be able to fetch data from external site
@@ -146,7 +163,6 @@ class HajperTestSuite(unittest.TestCase):
             print('EXE: Starting the game')
             active_session.find_element_by_xpath(xpathGameCanvas).click()
             time.sleep(5)
-            active_session.save_screenshot('./afterCanvasClick.png')
 
             bettingAmount = active_session.find_element_by_xpath(xpathGameBet).text
             balanceAmount = active_session.find_element_by_xpath(xpathGameBalance).text
@@ -173,6 +189,7 @@ class HajperTestSuite(unittest.TestCase):
             self.assertEqual(True, calculateFloat == afterBalanceFloat)
 
             time.sleep(4)
+            active_session.save_screenshot('LatestRunSpinTheSpinners.png')
 
         except Exception:
             raise Exception('Execution of ' + self._testMethodName + ' failed, please check error log')
@@ -194,3 +211,13 @@ class HajperTestSuite(unittest.TestCase):
         self.assertEqual(True, 'SUCCESS' == jsonObject.get('status'))
         self.assertEqual(True, len(jsonObject.get('result').get('loved')) == 0)
         self.assertEqual(True, len(jsonObject.get('result').get('recent')) == 0)
+
+
+if __name__ == '__main__':
+    import xmlrunner
+
+    unittest.main(
+        testRunner=xmlrunner.XMLTestRunner(output='test-reports'),
+        failfast=False,
+        buffer=False,
+        catchbreak=False)

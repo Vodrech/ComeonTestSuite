@@ -7,12 +7,9 @@ sys.path.append("..")  # Goes to the root Directory to find the main file, just 
 import main
 from TestSuite.AbstractTestMethods import AbstractTestMethods
 from config import Environment
+import xmlrunner
+import io
 
-"""
-
-    - Snabbare -- 
-
-"""
 
 # Class Setup
 abstract = AbstractTestMethods()
@@ -32,7 +29,7 @@ class SnabbareTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -49,12 +46,12 @@ class SnabbareTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page2(environment.mobileMode)
 
         # Execution
         try:
 
-            AbstractTestMethods.spel_inspektionen_logo_abstract(abstract, active_session)
+            AbstractTestMethods.spel_inspektionen_logo_abstract(abstract, active_session, environment)
 
         except Exception:
             raise Exception('Execution of ' + self._testMethodName + ' failed, please check error log')
@@ -66,7 +63,7 @@ class SnabbareTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -84,7 +81,7 @@ class SnabbareTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -101,7 +98,7 @@ class SnabbareTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -127,4 +124,8 @@ class SnabbareTestSuite(unittest.TestCase):
         self.assertEqual(True, 'SUCCESS' == jsonObject.get('status'))
         self.assertEqual(True, len(jsonObject.get('result').get('loved')) == 0)
         self.assertEqual(True, len(jsonObject.get('result').get('recent')) == 0)
+
+
+if __name__ == '__main__':
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='./test-reports'))
 

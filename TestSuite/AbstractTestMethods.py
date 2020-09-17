@@ -66,9 +66,16 @@ class AbstractTestMethods(unittest.TestCase):
         check_if_displayed()
         check_if_broken_link()
 
-    def spel_inspektionen_logo_abstract(self, driver_object):
+    def spel_inspektionen_logo_abstract(self, driver_object, Environment):
         print('EXE: Controlling spel_inspektionen-logo')
-        inspektionLogoXpath = '//*[@id="app"]/div/div/div[1]/div/footer/div/div[3]/div[1]/a/div/span'
+        driver_object.execute_script("document.getElementsByClassName('licenses-logos__spelinspektionen u-dib')[0].scrollIntoView();")
+        time.sleep(2)
+
+        if Environment.mobileMode:
+            inspektionLogoXpath = '//*[@id="app"]/div/div/div[1]/div/footer/section/div[3]/div[2]/a/div/span'
+        else:
+            inspektionLogoXpath = '//*[@id="app"]/div/div/div[1]/div/footer/div/div[3]/div[1]/a/div/span'
+
         self.assertEqual(True, driver_object.find_element_by_xpath(inspektionLogoXpath).is_displayed())
 
     def navigate_casino_explore_abstract(self, driver_object, xpath, Environment):
@@ -87,7 +94,7 @@ class AbstractTestMethods(unittest.TestCase):
         urlBool = active_url == (Environment.casino)
         self.assertEqual(True, urlBool)
 
-    def like_game_from_grid(self, driver_object, Environment, xpath):
+    def like_game_from_grid(self, driver_object, Environment, className):
 
         driver_object.get(Environment.casino)
 
@@ -99,7 +106,7 @@ class AbstractTestMethods(unittest.TestCase):
                 raise TimeoutError('Timeout on loading the page: ' + str(driver_object.current_url))
 
         time.sleep(3)
-        driver_object.execute_script("return document.getElementsByTagName('figure')[1].getElementsByClassName(arguments[0])[0]", xpath).click()
+        driver_object.execute_script("return document.getElementsByTagName('figure')[2].getElementsByClassName(arguments[0])[0]", className).click()
 
         jsonObject = requests.get(str(Environment.verify).split('sv')[0] + 'player/status').json()
         self.assertEqual(True, ("SUCCESS" == jsonObject.get('status')))
@@ -136,10 +143,16 @@ class AbstractTestMethods(unittest.TestCase):
         value = 100
         personID = 192311229252
 
+        #Xpaths
+        SattInOchSpelaButtonMobile = '//*[@id="app"]/div/div/div[1]/div/div[5]/div/div/div/button'
+        SattInOchSpelaButtonDesktop = '//*[@id="header-bigger"]/div/div/div/button'
+
         # Pressing the button | sätt in och spela
         print("EXE: Pressing the 'Sätt in och spela button'")
-        button_element = driver_object.find_element_by_xpath(xpathToButton)
-        driver_object.execute_script('arguments[0].click();', button_element)
+        if Environment.mobileMode:
+            driver_object.execute_script('arguments[0].click();', driver_object.find_element_by_xpath(SattInOchSpelaButtonMobile))
+        else:
+            driver_object.execute_script('arguments[0].click();', driver_object.find_element_by_xpath(SattInOchSpelaButtonDesktop))
 
         # Inserting a value to the input field
         print('EXE: Inserting a value of: ' + str(value))
@@ -177,5 +190,5 @@ class AbstractTestMethods(unittest.TestCase):
         self.assertEqual(True, driver_object.find_element_by_xpath(xpathControlCodeTwo).is_displayed())
 
         driver_object.find_element_by_xpath(xpathControlCodeValidateField).send_keys(1337)
-        driver_object.save_screenshot('latestSucess.png')
+        driver_object.save_screenshot('LatestRunPayWithSEB.png')
 

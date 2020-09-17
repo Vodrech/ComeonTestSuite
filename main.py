@@ -61,6 +61,7 @@ class WebDriverSession:
 
             if mobileMode == True:
                 self.set_viewport_size(driver, 375, 812)
+                time.sleep(3)
 
             driver.get(self.environment.baseURL)
             print("EXE: Driver getting webpage: " + str(self.environment.baseURL))
@@ -91,6 +92,12 @@ class WebDriverSession:
             driver = webdriver.Chrome('../WebDrivers/chrome_driver_85.exe')
             print("EXE: Running on: " + str(
                 driver.desired_capabilities.get('browserName')) + " with the SessionID: " + str(driver.session_id))
+
+            if mobileMode == True:
+                self.set_viewport_size(driver, 375, 812)
+            else:
+                driver.maximize_window()
+
             driver.get(self.environment.baseURL)
             print("EXE: Driver getting webpage: " + str(self.environment.baseURL))
 
