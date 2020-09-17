@@ -12,9 +12,9 @@ When using this project it can be used with 2 different settings. Within seleniu
 perform your tests. The default for this project is an headless browser and needs to be setup before actually running. If the non-headless browser is wanted just
 follow the instructions under the ### non-headless browser testing:
 
-#### Headless browser:
+### Headless browser:
 
-##### Prerequisites: 
+#### Prerequisites: 
 Because this project are using docker and its containers, its useful to already have docker installed, if docker isn't installed on your computer you can go to:
 https://docs.docker.com/docker-for-windows/install/
 
@@ -33,7 +33,7 @@ To check that its running:
 docker ps
 ```
 
-##### Executing Headless browser tests:
+#### Executing Headless browser tests:
 When the server/node is up and running you can simply just execute the test within the cmd, but remember to locate to the correct directory or the
 python interpreter won't able to find the tests.
 ```
@@ -47,6 +47,23 @@ python -m unittest SnabbareTestSuite
 After each test either a ('.') or a ('E') are displayed to show if the test ERROR or PASS.
 E = ERROR
 . = PASS
+
+#### Executing Non-Headless browser tests:
+Non Headless browser tests can be executed the same way as headless browser tests, the only difference is that no server/node are needed and
+can be executed directly.
+> Note: Only if the correct webdriver are placed in the Webdriver folder.
+
+##### Changes that has to be made:
+The changes that has to be made before the execution are:
+
+Editing the HajperTestSuite and SnabbareTestSuite function usage on every test:
+
+active_session = selenium_session.load_page()
+
+TO
+
+active_session = selenium_session.load_page2()
+
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/badge/version-v1.0-brightgreen
