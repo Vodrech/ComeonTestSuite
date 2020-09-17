@@ -17,7 +17,7 @@ import time
 
 # Class Setup
 abstract = AbstractTestMethods()
-environment = Environment('hajper', 'https://www.hajper.com/sv/', '')
+environment = Environment('hajper', 'https://www.hajper.com/sv/', '', True)
 
 
 class HajperTestSuite(unittest.TestCase):
@@ -34,7 +34,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -51,7 +51,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -68,7 +68,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -86,7 +86,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -103,7 +103,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page(environment.mobileMode)
 
         # Execution
         try:
@@ -120,7 +120,7 @@ class HajperTestSuite(unittest.TestCase):
 
         # Load up
         selenium_session = main.WebDriverSession(environment)
-        active_session = selenium_session.load_page()
+        active_session = selenium_session.load_page2(environment.mobileMode)
         active_session.get(environment.casino)
 
         # Navigation Variables
@@ -145,7 +145,9 @@ class HajperTestSuite(unittest.TestCase):
             time.sleep(10)
             print('EXE: Starting the game')
             active_session.find_element_by_xpath(xpathGameCanvas).click()
-            time.sleep(10)
+            time.sleep(5)
+            active_session.save_screenshot('./afterCanvasClick.png')
+
             bettingAmount = active_session.find_element_by_xpath(xpathGameBet).text
             balanceAmount = active_session.find_element_by_xpath(xpathGameBalance).text
 
@@ -159,7 +161,7 @@ class HajperTestSuite(unittest.TestCase):
 
             balanceAsFloat = float(active_session.find_element_by_xpath(xpathGameBalance).text.split('€')[0].split(',')[0].split('.')[0] +
             active_session.find_element_by_xpath(xpathGameBalance).text.split('€')[0].split(',')[0].split('.')[1])
-
+            time.sleep(5)
             active_session.find_element_by_xpath(xpathPlaceBet).click()
 
             calculateFloat = balanceAsFloat - bettingAmountAsFloat

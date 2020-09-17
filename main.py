@@ -46,7 +46,7 @@ class WebDriverSession:
         self.environment = Environment
 
     # Headless testing
-    def load_page(self):
+    def load_page(self, mobileMode):
 
         # Creates the PageFetcher Object
         page = PageFetcher(self.environment.baseURL, self.environment.headers)
@@ -58,6 +58,10 @@ class WebDriverSession:
             # driver = webdriver.Chrome(self.web_driver)
             driver = webdriver.Remote(command_executor='http://localhost:4444/wd/hub', desired_capabilities=webdriver.DesiredCapabilities.CHROME)
             print("EXE: Running on: " + str(driver.desired_capabilities.get('browserName')) + " with the SessionID: " + str(driver.session_id))
+
+            if mobileMode == True:
+                self.set_viewport_size(driver, 375, 812)
+
             driver.get(self.environment.baseURL)
             print("EXE: Driver getting webpage: " + str(self.environment.baseURL))
 
@@ -74,7 +78,7 @@ class WebDriverSession:
             raise requests.exceptions.RequestException("Page: " + str(self.environment.baseURL) + " could not be loaded, please check connection, authorization etc")
 
     # For visual testing
-    def load_page2(self):
+    def load_page2(self, mobileMode):
 
         # Creates the PageFetcher Object
         page = PageFetcher(self.environment.baseURL, self.environment.headers)
@@ -102,3 +106,10 @@ class WebDriverSession:
         else:
             raise requests.exceptions.RequestException("Page: " + str(
                 self.environment.baseURL) + " could not be loaded, please check connection, authorization etc")
+
+    def set_viewport_size(self, driver, width, height):
+        window_size = driver.execute_script("""
+            return [window.outerWidth - window.innerWidth + arguments[0],
+              window.outerHeight - window.innerHeight + arguments[1]];
+            """, width, height)
+        driver.set_window_size(*window_size)

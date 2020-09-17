@@ -16,7 +16,7 @@ from config import Environment
 
 # Class Setup
 abstract = AbstractTestMethods()
-environment = Environment('snabbare', 'https://www.snabbare.com/sv/', '')
+environment = Environment('snabbare', 'https://www.snabbare.com/sv/', '', False)
 
 
 class SnabbareTestSuite(unittest.TestCase):
