@@ -8,6 +8,7 @@ import main
 from TestSuite.AbstractTestMethods import AbstractTestMethods
 from config import Environment
 import time
+import xmlrunner
 
 
 # Class Setup
@@ -214,10 +215,4 @@ class HajperTestSuite(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    import xmlrunner
-
-    unittest.main(
-        testRunner=xmlrunner.XMLTestRunner(output='test-reports'),
-        failfast=False,
-        buffer=False,
-        catchbreak=False)
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='./test-reports'))
