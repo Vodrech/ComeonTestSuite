@@ -1,6 +1,11 @@
 ## Comeon Testing Project
 > Just a asignment project to test towards the comeon sites Hajper.com and Snabbare.com
 
+[![Python Version][python-version]][npm-url]
+[![NPM Version][npm-image]][npm-url]
+
+![Project_Summary_Logo](https://github.com/Vodrech/ComeonTestSuite/blob/master/MindMap.png?raw=true)
+
 ### Prerequistes:
 To able to run this project you need to have Python installed and preferably docker. Docker is for the headless selenium grid but the
 project can be runned on the non-headless webdriver.
@@ -79,4 +84,8 @@ TO:    environment = Environment('hajper', 'https://www.hajper.com/sv/', '', Tru
 ##### Disclaimers:
 Test passes almost everytime, some problems can appear when the loading takes to long. Mostly of all these things can be fixed, but the date and time the project had to be delivered it went with a simple solution.
 
+<!-- Markdown link & img dfn's -->
+[npm-image]: https://img.shields.io/badge/version-v1.0-brightgreen
+[npm-url]: https://npmjs.org/package/datadog-metrics
+[python-version]: https://img.shields.io/badge/python-%2B3.7-blue
 
