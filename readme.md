@@ -5,6 +5,11 @@
 [![NPM Version][npm-image]][npm-url]
 
 ![Project_Summary_Logo](https://github.com/Vodrech/ComeonTestSuite/blob/master/MindMap.png?raw=true)
+## Architecture
+The arhitecture uses OOP with python as the main source programming language. The Testsuites are combined with an AbstractTestMethod file to be able to
+perform test with the same prerequistes and tasks. Most of the test perform UI test on the Comeon's gambling sites with the python module: selenium. Other modules that are commonly used are also 'requests' and 'unittest' modules
+> The AbstractTestMethod performs test with common task within both TestSuite.
+> The project can use non-headless webdriver and headless webdriver.
 
 ### Prerequistes:
 To able to run this project you need to have Python installed and preferably docker. Docker is for the headless selenium grid but the
