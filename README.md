@@ -53,17 +53,23 @@ Non Headless browser tests can be executed the same way as headless browser test
 can be executed directly.
 > Note: Only if the correct webdriver are placed in the Webdriver folder.
 
+If the Webdriver would be outdated, just download one that is working at: https://chromedriver.chromium.org/downloads
+and replace it in the ./Webdriver/ with the 'chrome_driver_85.exe' or change the 'main.py' file where it fetches the driver.
+
 ##### Changes that has to be made:
-The changes that has to be made before the execution are:
+The changes that has to be made before the execution are editing the HajperTestSuite and SnabbareTestSuite function usage on every test:
 
-Editing the HajperTestSuite and SnabbareTestSuite function usage on every test:
-
+```
 active_session = selenium_session.load_page()
 
 TO
 
 active_session = selenium_session.load_page2()
+```
 
+##### Disclaimers:
+
+Play "The Respinners" test won't work corretly with the headless browser because the kernal can't manage the game. So it's being executed through the non-headless method.
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/badge/version-v1.0-brightgreen
